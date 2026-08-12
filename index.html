@@ -1,480 +1,123 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>西域果坊 · 新疆干果 · 天山脚下的大自然馈赠</title>
-<meta name="description" content="西域果坊 —— 新疆干果源头直供，吐鲁番葡萄干、若羌灰枣、阿克苏核桃、巴旦木、无花果干、杏干，自然晾晒，无添加，颗颗饱满。">
-<style>
-  :root {
-    --primary: #c2452d;      /* 枣红 */
-    --primary-dark: #9c3220;
-    --gold: #d9a441;         /* 金黄 */
-    --gold-light: #f0d9a8;
-    --sand: #faf3e6;         /* 沙漠米色 */
-    --sand-deep: #f3e4c8;
-    --ink: #3c2b21;          /* 深棕 */
-    --ink-soft: #6b5544;
-    --cream: #fffaf0;
-    --shadow: 0 10px 30px rgba(92, 58, 28, .12);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
-    color: var(--ink);
-    background: var(--cream);
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-  }
-  img { max-width: 100%; display: block; }
-  a { text-decoration: none; color: inherit; }
-  ul { list-style: none; }
-  section { padding: 88px 24px; }
-  .container { max-width: 1120px; margin: 0 auto; }
-
-  /* ---------- 顶部导航 ---------- */
-  header {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(255, 250, 240, .92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--sand-deep);
-  }
-  .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; max-width: 1200px; margin: 0 auto; }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; }
-  .brand .logo {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary), var(--gold));
-    color: #fff; display: grid; place-items: center; font-size: 20px;
-    box-shadow: var(--shadow);
-  }
-  .brand small { display: block; font-size: 11px; font-weight: 500; color: var(--ink-soft); letter-spacing: 2px; }
-  nav ul { display: flex; gap: 30px; }
-  nav a { font-size: 15px; color: var(--ink-soft); font-weight: 600; transition: color .2s; }
-  nav a:hover { color: var(--primary); }
-  .nav-cta {
-    background: var(--primary); color: #fff !important;
-    padding: 9px 20px; border-radius: 999px; font-size: 14px;
-  }
-  .nav-cta:hover { background: var(--primary-dark); }
-  .hamburger { display: none; background: none; border: none; font-size: 26px; color: var(--ink); cursor: pointer; }
-
-  /* ---------- Hero ---------- */
-  .hero {
-    position: relative; overflow: hidden;
-    background:
-      radial-gradient(1000px 500px at 85% -10%, rgba(217,164,65,.35), transparent 60%),
-      radial-gradient(800px 500px at 0% 110%, rgba(194,69,45,.18), transparent 55%),
-      linear-gradient(160deg, #fdf6e9 0%, #f6e6c6 55%, #efd9ae 100%);
-    padding: 120px 24px 100px;
-  }
-  .hero::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background-image:
-      radial-gradient(2px 2px at 20% 30%, rgba(194,69,45,.35), transparent),
-      radial-gradient(2px 2px at 45% 70%, rgba(194,69,45,.3), transparent),
-      radial-gradient(2px 2px at 70% 25%, rgba(194,69,45,.3), transparent),
-      radial-gradient(2px 2px at 90% 60%, rgba(194,69,45,.28), transparent);
-    background-size: 300px 300px;
-  }
-  .hero .container { position: relative; z-index: 1; display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px; align-items: center; }
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: #fff; border: 1px solid var(--gold-light); color: var(--primary-dark);
-    font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 999px;
-    box-shadow: var(--shadow); margin-bottom: 22px;
-  }
-  .hero h1 { font-size: clamp(34px, 5vw, 54px); line-height: 1.22; font-weight: 900; letter-spacing: 1px; }
-  .hero h1 em { font-style: normal; color: var(--primary); }
-  .hero h1 .gold { color: var(--gold); }
-  .hero p.lead { margin: 22px 0 34px; font-size: 17px; color: var(--ink-soft); max-width: 520px; }
-  .btn-row { display: flex; gap: 16px; flex-wrap: wrap; }
-  .btn {
-    display: inline-block; padding: 14px 32px; border-radius: 999px;
-    font-weight: 700; font-size: 15px; transition: transform .2s, box-shadow .2s;
-  }
-  .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; box-shadow: 0 8px 20px rgba(194,69,45,.35); }
-  .btn-ghost { background: #fff; color: var(--ink); border: 1.5px solid var(--gold); }
-  .btn:hover { transform: translateY(-2px); }
-
-  .hero-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  .fruit-card {
-    background: rgba(255,255,255,.85); border-radius: 18px; padding: 18px;
-    box-shadow: var(--shadow); text-align: center; backdrop-filter: blur(4px);
-    transition: transform .25s;
-  }
-  .fruit-card:hover { transform: translateY(-6px) rotate(-1deg); }
-  .fruit-card .big { font-size: 44px; line-height: 1; }
-  .fruit-card h3 { font-size: 15px; margin-top: 8px; }
-  .fruit-card p { font-size: 12px; color: var(--ink-soft); margin-top: 4px; }
-  .fruit-card:nth-child(odd) { transform: rotate(-1.5deg); }
-  .fruit-card:nth-child(even) { transform: rotate(1.5deg); margin-top: 14px; }
-  .fruit-card:nth-child(odd):hover { transform: translateY(-6px) rotate(-2deg); }
-  .fruit-card:nth-child(even):hover { transform: translateY(-6px) rotate(2deg); }
-
-  /* ---------- 数据条 ---------- */
-  .stats { background: var(--ink); color: #f6e9d8; padding: 44px 24px; }
-  .stats .container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
-  .stat b { font-size: clamp(28px, 4vw, 40px); color: var(--gold); font-weight: 900; }
-  .stat span { display: block; margin-top: 6px; font-size: 14px; color: #cbb89f; }
-
-  /* ---------- 产品 ---------- */
-  .section-head { text-align: center; max-width: 640px; margin: 0 auto 52px; }
-  .section-head .kicker { color: var(--primary); font-weight: 800; letter-spacing: 3px; font-size: 13px; }
-  .section-head h2 { font-size: clamp(26px, 4vw, 38px); margin: 10px 0 14px; font-weight: 900; }
-  .section-head p { color: var(--ink-soft); }
-
-  .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 26px; }
-  .product {
-    background: #fff; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow);
-    transition: transform .25s, box-shadow .25s; position: relative;
-  }
-  .product:hover { transform: translateY(-8px); box-shadow: 0 18px 40px rgba(92,58,28,.18); }
-  .product .thumb { height: 170px; display: grid; place-items: center; font-size: 74px; background: linear-gradient(150deg, var(--sand), #f7ecd7); }
-  .product .badge {
-    position: absolute; top: 14px; left: 14px; background: var(--primary); color: #fff;
-    font-size: 12px; padding: 4px 12px; border-radius: 999px; font-weight: 700;
-  }
-  .product .body { padding: 20px 22px 24px; }
-  .product h3 { font-size: 19px; display: flex; align-items: center; gap: 8px; }
-  .product h3 span { color: var(--gold); }
-  .product p { font-size: 14px; color: var(--ink-soft); margin: 8px 0 14px; }
-  .product .meta { display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--sand-deep); padding-top: 12px; }
-  .product .price { color: var(--primary); font-weight: 900; font-size: 17px; }
-  .product .price small { font-size: 12px; color: var(--ink-soft); font-weight: 500; }
-  .product .origin { font-size: 12px; color: var(--ink-soft); background: var(--sand); padding: 3px 10px; border-radius: 999px; }
-
-  /* ---------- 优势 ---------- */
-  .features { background: linear-gradient(165deg, var(--sand) 0%, #fbf4e5 100%); }
-  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; }
-  .feature {
-    background: #fff; border-radius: 18px; padding: 30px 26px; box-shadow: var(--shadow);
-    border-top: 4px solid var(--gold); transition: transform .25s;
-  }
-  .feature:hover { transform: translateY(-6px); }
-  .feature .icon { font-size: 40px; }
-  .feature h3 { font-size: 17px; margin: 14px 0 8px; }
-  .feature p { font-size: 14px; color: var(--ink-soft); }
-
-  /* ---------- 关于 ---------- */
-  .about .container { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
-  .about-visual {
-    border-radius: 24px; overflow: hidden; box-shadow: var(--shadow); position: relative;
-    background: linear-gradient(160deg, #e9c98a, #c98d4f); padding: 40px;
-  }
-  .about-visual .sun { width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffe9b0, var(--gold)); margin: 0 auto 26px; box-shadow: 0 0 60px rgba(217,164,65,.7); }
-  .about-visual .dunes { height: 70px; background: linear-gradient(180deg, transparent 40%, #a9642f 40%, #8a4e22 100%); border-radius: 50% 50% 0 0; }
-  .about-visual .text { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(60,43,33,.78); color: #f8ecd8; padding: 18px 24px; font-size: 14px; text-align: center; }
-  .about h2 { font-size: clamp(24px, 3.5vw, 34px); font-weight: 900; margin-bottom: 18px; }
-  .about p { color: var(--ink-soft); margin-bottom: 14px; }
-  .about ul { margin: 18px 0 28px; }
-  .about li { padding: 8px 0 8px 30px; position: relative; color: var(--ink); font-weight: 600; }
-  .about li::before { content: "✔"; position: absolute; left: 0; color: var(--primary); font-weight: 900; }
-
-  /* ---------- 联系 ---------- */
-  .contact { background: var(--ink); color: #f6e9d8; }
-  .contact .section-head h2 { color: #fff; }
-  .contact .section-head p { color: #cbb89f; }
-  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-  .contact-item { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px dashed rgba(255,255,255,.15); align-items: flex-start; }
-  .contact-item .c-icon { font-size: 26px; }
-  .contact-item b { display: block; font-size: 15px; }
-  .contact-item p { color: #cbb89f; font-size: 14px; }
-  form { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 28px; }
-  form h3 { margin-bottom: 18px; }
-  .field { margin-bottom: 14px; }
-  .field input, .field textarea {
-    width: 100%; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18);
-    border-radius: 12px; color: #fff; padding: 12px 14px; font-size: 14px; font-family: inherit; outline: none;
-  }
-  .field input::placeholder, .field textarea::placeholder { color: #a7937d; }
-  .field input:focus, .field textarea:focus { border-color: var(--gold); }
-  .field textarea { resize: vertical; min-height: 90px; }
-  form .btn { width: 100%; border: none; cursor: pointer; }
-  #form-msg { display: none; margin-top: 12px; font-size: 14px; color: #b7e08a; text-align: center; }
-
-  /* ---------- 页脚 ---------- */
-  footer { background: #2a1d14; color: #cbb89f; padding: 40px 24px; text-align: center; font-size: 13px; }
-  footer b { color: var(--gold-light); }
-  footer .links { margin: 14px 0; display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
-  footer a:hover { color: var(--gold); }
-
-  /* ---------- 动画 ---------- */
-  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
-  .reveal.visible { opacity: 1; transform: none; }
-
-  /* ---------- 响应式 ---------- */
-  @media (max-width: 900px) {
-    .hero .container { grid-template-columns: 1fr; }
-    .hero { padding: 80px 24px; }
-    .hero-cards { max-width: 420px; }
-    .stats .container { grid-template-columns: repeat(2, 1fr); gap: 28px; }
-    .about .container, .contact-grid { grid-template-columns: 1fr; }
-    nav ul {
-      display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column;
-      background: var(--cream); padding: 18px 28px; gap: 18px; box-shadow: var(--shadow); border-top: 1px solid var(--sand-deep);
-    }
-    nav ul.open { display: flex; }
-    .hamburger { display: block; }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Silk Road Travel Guide | silkroaddeep.com</title>
+    <meta name="description" content="Silk Road travel guides for Xinjiang. Read travel tips, routes, accommodation and safety advice for Urumqi, Altay and Dushanzi.">
+    <meta name="keywords" content="Xinjiang travel, Dushanzi itinerary, Altay travel guide, Urumqi tourism, Silk Road">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        body {
+            background-color: #f7f3eb;
+            color: #2c2c2c;
+            line-height: 1.65;
+        }
+        header {
+            background-color: #784b27;
+            color: white;
+            padding: 1.2rem 5%;
+        }
+        .header-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .site-title {
+            font-size: 26px;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 5%;
+        }
+        .intro-text {
+            margin-bottom: 40px;
+            font-size: 17px;
+        }
+        h2 {
+            margin-bottom: 24px;
+            color: #52341a;
+        }
+        .guide-card {
+            background: #ffffff;
+            padding: 22px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        .guide-card h3 {
+            margin-bottom: 8px;
+        }
+        .guide-card a {
+            color: #0057b8;
+            text-decoration: none;
+        }
+        .guide-card a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            background-color: #2b2b2b;
+            color: #ddd;
+            padding: 30px 5%;
+            margin-top: 70px;
+            font-size: 14px;
+        }
+        footer a {
+            color: #b8c8e0;
+            margin-right: 16px;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-
-<!-- ===== 导航 ===== -->
 <header>
-  <div class="nav">
-    <a href="#" class="brand">
-      <span class="logo">🍇</span>
-      <span>西域果坊<small>XIYU · 新疆干果源头直供</small></span>
-    </a>
-    <nav>
-      <ul id="menu">
-        <li><a href="#home">首页</a></li>
-        <li><a href="#products">明星干果</a></li>
-        <li><a href="#features">我们的优势</a></li>
-        <li><a href="#about">关于我们</a></li>
-        <li><a href="#contact" class="nav-cta">联系我们</a></li>
-      </ul>
-    </nav>
-    <button class="hamburger" id="hamburger" aria-label="打开菜单">☰</button>
-  </div>
+    <div class="header-wrap">
+        <div class="site-title">Deep Silk Road Travel Guide</div>
+    </div>
 </header>
 
-<!-- ===== Hero ===== -->
-<section class="hero" id="home">
-  <div class="container">
-    <div>
-      <span class="hero-tag">🌄 北纬 43° · 天山雪水浇灌 · 全年日照 3000+ 小时</span>
-      <h1>来自<span class="gold">新疆</span>的<br>大自然<span>天然馈赠</span> <em>🍇</em></h1>
-      <p class="lead">从吐鲁番的葡萄架、若羌的枣园到阿克苏的核桃林，我们把这 5000 公里外的新疆阳光，晾晒成一颗颗饱满的干果，原产地直发到你家门口。</p>
-      <div class="btn-row">
-        <a href="#products" class="btn btn-primary">看看明星干果 →</a>
-        <a href="#about" class="btn btn-ghost">了解西域果坊</a>
-      </div>
+<div class="container">
+    <div class="intro-text">
+        <p>Welcome to Deep Silk Road. Here you can find practical independent travel guides for Xinjiang, including route planning, road conditions, accommodation suggestions and travel safety tips.</p>
     </div>
-    <div class="hero-cards">
-      <div class="fruit-card"><div class="big">🍇</div><h3>吐鲁番葡萄干</h3><p>无核白 · 晾房自然风干</p></div>
-      <div class="fruit-card"><div class="big">🌰</div><h3>阿克苏核桃</h3><p>薄皮 · 一捏就开</p></div>
-      <div class="fruit-card"><div class="big">🫘</div><h3>若羌灰枣</h3><p>皮薄核小 · 肉厚甜糯</p></div>
-      <div class="fruit-card"><div class="big">🌰</div><h3>巴旦木</h3><p>奶香四溢 · 颗颗酥脆</p></div>
-    </div>
-  </div>
-</section>
 
-<!-- ===== 数据条 ===== -->
-<section class="stats">
-  <div class="container">
-    <div class="stat"><b>20+</b><span>年源头产地合作</span></div>
-    <div class="stat"><b>8</b><span>大新疆核心产区</span></div>
-    <div class="stat"><b>1200+</b><span>果农直采签约农户</span></div>
-    <div class="stat"><b>99.8%</b><span>好评率 · 复购率行业前列</span></div>
-  </div>
-</section>
+    <h2>Available Travel Guides</h2>
 
-<!-- ===== 产品 ===== -->
-<section id="products">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="kicker">STAR PRODUCTS</span>
-      <h2>八大产区 · 六款明星干果</h2>
-      <p>每一颗都经过人工分选，粒粒饱满、自然原味，不染色、不掺假、无添加。</p>
+    <div class="guide-card">
+        <h3><a href="dushanzi.html">Dushanzi Travel Guide</a></h3>
+        <p>Complete itinerary, highway information, food recommendations and scenic spots around Dushanzi.</p>
     </div>
-    <div class="products">
-      <article class="product reveal">
-        <span class="badge">热销 TOP1</span>
-        <div class="thumb">🍇</div>
-        <div class="body">
-          <h3>吐鲁番无核白葡萄干</h3>
-          <p>吐鲁番晾房内自然风干，果粒翠绿剔透，入口清甜不齁，粒粒无籽。</p>
-          <div class="meta"><span class="price">¥29.9 <small>/ 500g</small></span><span class="origin">📍 吐鲁番</span></div>
-        </div>
-      </article>
-      <article class="product reveal">
-        <span class="badge">皮薄核小</span>
-        <div class="thumb">🫘</div>
-        <div class="body">
-          <h3>若羌灰枣</h3>
-          <p>若羌独特戈壁气候孕育，皮薄核小、肉质紧实，煮粥泡茶煲汤皆宜。</p>
-          <div class="meta"><span class="price">¥39.9 <small>/ 1kg</small></span><span class="origin">📍 若羌</span></div>
-        </div>
-      </article>
-      <article class="product reveal">
-        <div class="thumb">🌰</div>
-        <div class="body">
-          <h3>阿克苏薄皮核桃</h3>
-          <p>壳薄如纸、一捏即开，果仁饱满香脆，富含优质不饱和脂肪酸。</p>
-          <div class="meta"><span class="price">¥49.9 <small>/ 1kg</small></span><span class="origin">📍 阿克苏</span></div>
-        </div>
-      </article>
-      <article class="product reveal">
-        <span class="badge">新品尝鲜</span>
-        <div class="thumb">🥜</div>
-        <div class="body">
-          <h3>纸皮巴旦木</h3>
-          <p>奶香浓郁、口感酥脆，轻磕即开，是下午茶与追剧的绝佳搭档。</p>
-          <div class="meta"><span class="price">¥45.9 <small>/ 500g</small></span><span class="origin">📍 莎车</span></div>
-        </div>
-      </article>
-      <article class="product reveal">
-        <div class="thumb">🍯</div>
-        <div class="body">
-          <h3>阿图什无花果干</h3>
-          <p>果肉软糯如蜜，甜而不腻，天然果糖含量高，是健康的代糖零食。</p>
-          <div class="meta"><span class="price">¥32.9 <small>/ 500g</small></span><span class="origin">📍 阿图什</span></div>
-        </div>
-      </article>
-      <article class="product reveal">
-        <div class="thumb">🍑</div>
-        <div class="body">
-          <h3>轮台杏干</h3>
-          <p>树上自然风干，果肉厚实有嚼劲，酸甜开胃，富含膳食纤维。</p>
-          <div class="meta"><span class="price">¥26.9 <small>/ 500g</small></span><span class="origin">📍 轮台</span></div>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
 
-<!-- ===== 优势 ===== -->
-<section class="features" id="features">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="kicker">WHY CHOOSE US</span>
-      <h2>为什么选择西域果坊</h2>
+    <div class="guide-card">
+        <h3><a href="altay.html">Altay Travel Guide</a></h3>
+        <p>Seasonal travel tips, lake routes, transportation and accommodation guide for Altay region.</p>
     </div>
-    <div class="features-grid">
-      <div class="feature reveal">
-        <div class="icon">☀️</div>
-        <h3>自然晾晒 · 拒绝烘干</h3>
-        <p>沿用新疆传统晾房与日晒工艺，最大程度保留果实本味与营养。</p>
-      </div>
-      <div class="feature reveal">
-        <div class="icon">🚚</div>
-        <h3>产地直供 · 减少中间商</h3>
-        <p>与 1200+ 果农签约直采，从枝头到仓库全程可溯，价格更实在。</p>
-      </div>
-      <div class="feature reveal">
-        <div class="icon">🧪</div>
-        <h3>无添加 · 有检测</h3>
-        <p>不染色、不熏硫、不添加防腐剂，每批出货均附第三方检测报告。</p>
-      </div>
-      <div class="feature reveal">
-        <div class="icon">🎁</div>
-        <h3>企业定制 · 礼盒包装</h3>
-        <p>支持企业团购与节日礼盒定制，新疆特色伴手礼，体面又有心意。</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ===== 关于 ===== -->
-<section class="about" id="about">
-  <div class="container">
-    <div class="about-visual reveal">
-      <div class="sun"></div>
-      <div class="dunes"></div>
-      <div class="text">🌾 天山雪水 · 大漠骄阳 · 孕育一果一味</div>
+    <div class="guide-card">
+        <h3><a href="urumqi.html">Urumqi Travel Guide</a></h3>
+        <p>City sightseeing, local market, nearby day trips and practical tips for Urumqi visitors.</p>
     </div>
-    <div class="reveal">
-      <span class="kicker" style="color: var(--primary); font-weight:800; letter-spacing:3px; font-size:13px;">ABOUT US</span>
-      <h2 style="margin-top:10px;">扎根新疆 20 年<br>只做「真 · 鲜 · 甜」的新疆味道</h2>
-      <p>西域果坊创立于 2005 年，是一家集新疆干果收购、加工、销售于一体的源头企业，总部位于乌鲁木齐，仓储覆盖吐鲁番、阿克苏、若羌等核心产区。</p>
-      <p>我们坚持「树上熟、自然晾、严分选」的九字标准：成熟期采收、晾房自然风干、人工逐粒分拣，让每一颗干果都经得起检验。</p>
-      <ul>
-        <li>ISO22000 食品安全管理体系认证</li>
-        <li>所有品类可扫码溯源到具体果园</li>
-        <li>全国 48 小时极速发货，坏果包赔</li>
-        <li>企业采购支持对公结算与专票</li>
-      </ul>
-      <a href="#contact" class="btn btn-primary">成为合作伙伴</a>
+	
+	 <div class="guide-card">
+        <h3><a href="yili.html">yili Travel Guide</a></h3>
+        <p>City sightseeing, local market, nearby day trips and practical tips for Urumqi visitors.</p>
     </div>
-  </div>
-</section>
+	
+</div>
 
-<!-- ===== 联系 ===== -->
-<section class="contact" id="contact">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="kicker" style="color: var(--gold);">CONTACT US</span>
-      <h2>联系我们 · 尝尝来自新疆的甜</h2>
-      <p>无论是个人尝鲜、企业团购还是渠道合作，欢迎随时联系我们。</p>
-    </div>
-    <div class="contact-grid">
-      <div class="reveal">
-        <div class="contact-item">
-          <span class="c-icon">📞</span>
-          <div><b>销售热线</b><p>400-800-6688（9:00–21:00）</p></div>
-        </div>
-        <div class="contact-item">
-          <span class="c-icon">📱</span>
-          <div><b>微信客服</b><p>xiyuguofang（添加请备注「干果」）</p></div>
-        </div>
-        <div class="contact-item">
-          <span class="c-icon">📍</span>
-          <div><b>公司地址</b><p>新疆乌鲁木齐市沙依巴克区果香路 88 号西域果坊大厦</p></div>
-        </div>
-        <div class="contact-item">
-          <span class="c-icon">✉️</span>
-          <div><b>合作邮箱</b><p>hello@xiyuguofang.com</p></div>
-        </div>
-        <div class="contact-item">
-          <span class="c-icon">🧭</span>
-          <div><b>仓储产区</b><p>乌鲁木齐 · 吐鲁番 · 阿克苏 · 若羌 · 莎车</p></div>
-        </div>
-      </div>
-      <form id="contact-form" class="reveal" novalidate>
-        <h3>✍️ 留言 / 询价</h3>
-        <div class="field"><input type="text" id="f-name" placeholder="您的称呼 *" required></div>
-        <div class="field"><input type="tel" id="f-phone" placeholder="手机号 / 微信号 *" required></div>
-        <div class="field"><textarea id="f-msg" placeholder="想了解的产品、数量或合作需求…"></textarea></div>
-        <button type="submit" class="btn btn-primary">提交留言</button>
-        <p id="form-msg">✅ 已收到您的留言，客服会在 1 个工作日内联系您！</p>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 页脚 ===== -->
 <footer>
-  <div>
-    <b>西域果坊 · XIYU GUOFANG</b>
-    <div class="links">
-      <a href="#home">首页</a>
-      <a href="#products">明星干果</a>
-      <a href="#features">我们的优势</a>
-      <a href="#about">关于我们</a>
-      <a href="#contact">联系我们</a>
-    </div>
-    <p>© 2024 西域果坊（新疆）干果有限公司 · 新疆乌鲁木齐市沙依巴克区果香路 88 号 · 新ICP备XXXXXXXX号</p>
-    <p>本页面为示例主页，公司信息与联系方式均为演示内容。</p>
-  </div>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="disclaimer.html">Disclaimer</a>
+    <p style="margin-top:12px;">© 2026 silkroaddeep.com. All rights reserved.</p>
 </footer>
-
-<script>
-  // 移动端菜单
-  const hamburger = document.getElementById('hamburger');
-  const menu = document.getElementById('menu');
-  hamburger.addEventListener('click', () => menu.classList.toggle('open'));
-  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
-
-  // 滚动出现动画
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-
-  // 留言表单（演示：前端拦截 + 成功提示）
-  const form = document.getElementById('contact-form');
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const name = document.getElementById('f-name').value.trim();
-    const phone = document.getElementById('f-phone').value.trim();
-    if (!name || !phone) { alert('请填写您的称呼和联系方式哦～'); return; }
-    document.getElementById('form-msg').style.display = 'block';
-    form.reset();
-  });
-</script>
 </body>
 </html>
