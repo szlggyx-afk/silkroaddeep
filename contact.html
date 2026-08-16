@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - CalcWise</title>
+  <meta name="description" content="Contact CalcWise. Send us your questions, feedback, or suggestions about our financial calculators and content.">
+  <link rel="canonical" href="https://www.calcwise.cc/contact.html">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/common.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">$</span>
+      CalcWise
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="calculators/mortgage.html">Mortgage</a>
+      <a href="calculators/loan.html">Loans</a>
+      <a href="calculators/auto-loan.html">Auto Loan</a>
+      <a href="blog/index.html">Blog</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+  </div>
+</header>
+
+<div class="container-narrow">
+  <article class="article">
+    <h1>Contact Us</h1>
+    <p>Have a question, suggestion, or feedback? We'd love to hear from you. Whether you've spotted an error in one of our calculators, have an idea for a new tool, or just want to say hello, our team is here to help.</p>
+
+    <h2>Send Us a Message</h2>
+    <p>The fastest way to reach us is by email. We typically respond within 2–3 business days.</p>
+
+    <div style="background:var(--bg); border-radius:12px; padding:28px; margin:24px 0;">
+      <form onsubmit="event.preventDefault(); alert('Thank you! This is a demo form. Please email us directly at hello@calcwise.cc');">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="John Doe" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="john@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <select id="subject">
+            <option>General Inquiry</option>
+            <option>Calculator Feedback</option>
+            <option>Content Correction</option>
+            <option>Partnership / Advertising</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" rows="5" placeholder="How can we help?" required style="width:100%; padding:10px 14px; border:1px solid var(--border); border-radius:8px; font-size:1rem; font-family:inherit; resize:vertical;"></textarea>
+        </div>
+        <button type="submit" style="background:var(--accent); color:white; border:none; padding:12px 28px; border-radius:8px; font-weight:700; font-size:1rem; cursor:pointer;">Send Message</button>
+      </form>
+    </div>
+
+    <h2>Email Us Directly</h2>
+    <p>Prefer email? Reach us at:</p>
+    <ul>
+      <li><strong>General inquiries:</strong> hello@calcwise.cc</li>
+      <li><strong>Partnerships & advertising:</strong> partners@calcwise.cc</li>
+      <li><strong>Content corrections:</strong> corrections@calcwise.cc</li>
+    </ul>
+
+    <h2>What to Expect</h2>
+    <p>We read every message we receive. For general questions and feedback, we aim to respond within 2–3 business days. For partnership inquiries, please allow up to 5 business days for a response.</p>
+
+    <p style="margin-top:32px;"><a href="index.html">&larr; Back to Home</a></p>
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">$</span>
+        CalcWise
+      </a>
+      <p>Free, accurate financial calculators to help you make smarter money decisions.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Calculators</h4>
+      <ul>
+        <li><a href="calculators/mortgage.html">Mortgage Calculator</a></li>
+        <li><a href="calculators/loan.html">Loan Calculator</a></li>
+        <li><a href="calculators/auto-loan.html">Auto Loan Calculator</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="blog/index.html">Blog</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; <span id="current-year"></span> CalcWise. All rights reserved.
+  </div>
+</footer>
+
+</body>
+</html>
