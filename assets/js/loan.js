@@ -1,60 +1,48 @@
-// ===== Auto Loan Calculator =====
-let autoChart = null;
+// ===== Loan Calculator =====
+let loanChart = null;
 
-function calculateAutoLoan() {
-  const carPrice = parseInput(document.getElementById('carPrice').value);
-  const downPayment = parseInput(document.getElementById('downPayment').value);
-  const tradeIn = parseInput(document.getElementById('tradeIn').value);
-  const salesTaxRate = parseInput(document.getElementById('salesTax').value);
+function calculateLoan() {
+  const principal = parseInput(document.getElementById('loanAmount').value);
   const annualRate = parseInput(document.getElementById('interestRate').value);
   const numPayments = parseInt(document.getElementById('loanTerm').value);
-
-  // Taxable amount = car price - trade-in (in most states)
-  const taxableAmount = Math.max(0, carPrice - tradeIn);
-  const salesTax = taxableAmount * (salesTaxRate / 100);
-
-  // Loan amount = car price + sales tax - down payment - trade-in
-  const loanAmount = Math.max(0, carPrice + salesTax - downPayment - tradeIn);
 
   const monthlyRate = annualRate / 100 / 12;
 
   let monthlyPayment;
   if (monthlyRate === 0) {
-    monthlyPayment = loanAmount / numPayments;
+    monthlyPayment = principal / numPayments;
   } else {
-    monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) /
+    monthlyPayment = principal * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) /
                      (Math.pow(1 + monthlyRate, numPayments) - 1);
   }
 
   const totalRepayment = monthlyPayment * numPayments;
-  const totalInterest = Math.max(0, totalRepayment - loanAmount);
-  const totalCost = downPayment + tradeIn + totalRepayment;
+  const totalInterest = totalRepayment - principal;
 
   document.getElementById('monthlyPayment').textContent = formatCurrency(monthlyPayment);
-  document.getElementById('loanAmount').textContent = formatCurrency(loanAmount);
-  document.getElementById('taxAmount').textContent = formatCurrency(salesTax);
-  document.getElementById('totalInterest').textContent = formatCurrency(totalInterest);
-  document.getElementById('totalCost').textContent = formatCurrency(totalCost);
+  document.getElementById('resultPrincipal').textContent = formatCurrency(principal);
+  document.getElementById('resultInterest').textContent = formatCurrency(totalInterest);
+  document.getElementById('resultTotal').textContent = formatCurrency(totalRepayment);
 
-  updateChart(loanAmount, totalInterest);
-  generateAmortization(loanAmount, monthlyRate, monthlyPayment, numPayments);
+  updateChart(principal, totalInterest);
+  generateAmortization(principal, monthlyRate, monthlyPayment, numPayments);
 }
 
 function updateChart(principal, interest) {
-  const ctx = document.getElementById('autoChart').getContext('2d');
+  const ctx = document.getElementById('loanChart').getContext('2d');
   const data = {
-    labels: ['Loan Principal', 'Total Interest'],
+    labels: ['Principal', 'Total Interest'],
     datasets: [{
       data: [principal, interest],
       backgroundColor: ['#1e3a5f', '#f97316'],
       borderWidth: 0
     }]
   };
-  if (autoChart) {
-    autoChart.data = data;
-    autoChart.update();
+  if (loanChart) {
+    loanChart.data = data;
+    loanChart.update();
   } else {
-    autoChart = new Chart(ctx, {
+    loanChart = new Chart(ctx, {
       type: 'doughnut',
       data: data,
       options: {
@@ -80,7 +68,7 @@ function generateAmortization(principal, monthlyRate, monthlyPayment, numPayment
   const tbody = document.getElementById('amortBody');
   let balance = principal;
   let html = '';
-  const limit = Math.min(numPayments, 84);
+  const limit = Math.min(numPayments, 120);
 
   for (let i = 1; i <= limit; i++) {
     const interest = balance * monthlyRate;
@@ -99,12 +87,12 @@ function generateAmortization(principal, monthlyRate, monthlyPayment, numPayment
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  ['carPrice', 'downPayment', 'tradeIn', 'salesTax', 'interestRate', 'loanTerm'].forEach(id => {
+  ['loanAmount', 'interestRate', 'loanTerm'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
-      el.addEventListener('input', calculateAutoLoan);
-      el.addEventListener('change', calculateAutoLoan);
+      el.addEventListener('input', calculateLoan);
+      el.addEventListener('change', calculateLoan);
     }
   });
-  calculateAutoLoan();
+  calculateLoan();
 });
