@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mortgage Calculator - Estimate Your Monthly Payment | CalcWise</title>
+  <meta name="description" content="Free mortgage calculator. Estimate your monthly mortgage payment including principal, interest, taxes, insurance, and PMI. See amortization schedule and total costs.">
+  <meta name="keywords" content="mortgage calculator, monthly mortgage payment, mortgage payment calculator, PMI calculator, amortization">
+  <link rel="canonical" href="https://www.calcwise.cc/calculators/mortgage.html">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="../assets/js/common.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="logo">
+      <span class="logo-icon">$</span>
+      CalcWise
+    </a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="mortgage.html">Mortgage</a>
+      <a href="loan.html">Loans</a>
+      <a href="auto-loan.html">Auto Loan</a>
+      <a href="../blog/index.html">Blog</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+  </div>
+</header>
+
+<div class="container">
+  <h1 style="font-size:2rem; color:var(--primary); margin:0 0 8px;">Mortgage Calculator</h1>
+  <p style="color:var(--text-muted); margin:0 0 24px;">Estimate your monthly mortgage payment including principal, interest, taxes, insurance, and PMI.</p>
+
+  <div class="calc-wrapper">
+    <!-- Input Panel -->
+    <div class="calc-panel">
+      <h2>Loan Details</h2>
+
+      <div class="form-group">
+        <label for="homePrice">Home Price</label>
+        <input type="text" id="homePrice" value="400000" inputmode="decimal">
+      </div>
+
+      <div class="form-group">
+        <label for="downPayment">Down Payment</label>
+        <input type="text" id="downPayment" value="80000" inputmode="decimal">
+        <div class="input-hint">20% of home price recommended to avoid PMI</div>
+      </div>
+
+      <div class="form-group">
+        <label for="interestRate">Interest Rate (%)</label>
+        <input type="text" id="interestRate" value="6.5" inputmode="decimal" step="0.01">
+      </div>
+
+      <div class="form-group">
+        <label for="loanTerm">Loan Term</label>
+        <select id="loanTerm">
+          <option value="30">30 years</option>
+          <option value="20">20 years</option>
+          <option value="15" selected>15 years</option>
+          <option value="10">10 years</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="propertyTax">Property Tax / Year</label>
+        <input type="text" id="propertyTax" value="4800" inputmode="decimal">
+        <div class="input-hint">Average 1.1% of home value annually</div>
+      </div>
+
+      <div class="form-group">
+        <label for="homeInsurance">Home Insurance / Year</label>
+        <input type="text" id="homeInsurance" value="1500" inputmode="decimal">
+      </div>
+    </div>
+
+    <!-- Result Panel -->
+    <div class="calc-panel">
+      <h2>Your Estimated Payment</h2>
+
+      <div class="result-highlight">
+        <div class="label">Total Monthly Payment</div>
+        <div class="value" id="totalMonthly">$0</div>
+      </div>
+
+      <div class="result-row">
+        <span class="label">Principal & Interest</span>
+        <span class="value" id="piMonthly">$0</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Property Tax</span>
+        <span class="value" id="taxMonthly">$0</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Home Insurance</span>
+        <span class="value" id="insMonthly">$0</span>
+      </div>
+      <div class="result-row">
+        <span class="label">PMI (if applicable)</span>
+        <span class="value" id="pmiMonthly">$0</span>
+      </div>
+      <div class="result-row" style="border-bottom:none; font-weight:700; padding-top:12px;">
+        <span class="label">Loan Amount</span>
+        <span class="value" id="loanAmount">$0</span>
+      </div>
+      <div class="result-row" style="border-bottom:none;">
+        <span class="label">Total Interest Paid</span>
+        <span class="value" id="totalInterest">$0</span>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="paymentChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-placeholder">
+    <span class="ad-label">ADVERTISEMENT</span>
+    <div>AdSense / Ezoic ad placement (728x90)</div>
+  </div>
+
+  <!-- Amortization -->
+  <div class="calc-panel" style="margin-bottom:32px;">
+    <h2>Amortization Schedule</h2>
+    <div class="amort-scroll">
+      <table class="amort-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Payment</th>
+            <th>Principal</th>
+            <th>Interest</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody id="amortBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SEO Content -->
+  <div class="article">
+    <h2>How Is a Mortgage Payment Calculated?</h2>
+    <p>Your monthly mortgage payment typically consists of four components, often referred to as <strong>PITI</strong>: Principal, Interest, Taxes, and Insurance. Our mortgage calculator breaks down each component so you can see exactly where your money goes.</p>
+
+    <h3>Principal & Interest</h3>
+    <p>The principal is the portion of your payment that goes toward paying down the loan balance. The interest is what the lender charges for borrowing the money. For a fixed-rate mortgage, the total principal-and-interest payment stays the same throughout the loan term, though the ratio shifts over time—early payments are mostly interest, while later payments are mostly principal.</p>
+    <p>The standard formula for a fixed-rate mortgage payment is:</p>
+    <blockquote>M = P &times; [r(1+r)<sup>n</sup>] / [(1+r)<sup>n</sup> - 1]</blockquote>
+    <p>Where <strong>M</strong> is the monthly payment, <strong>P</strong> is the loan amount, <strong>r</strong> is the monthly interest rate (annual rate divided by 12), and <strong>n</strong> is the total number of payments (years &times; 12).</p>
+
+    <h3>Property Taxes</h3>
+    <p>Property taxes are assessed by your local government and are typically based on a percentage of your home's assessed value. The national average is about 1.1% of the home value per year, but rates vary significantly by state and locality. Lenders often collect property taxes as part of your monthly payment and hold them in an escrow account.</p>
+
+    <h3>Homeowners Insurance</h3>
+    <p>Homeowners insurance protects you against damage to your home and liability claims. Most lenders require it, and the annual premium is usually divided into 12 monthly payments held in escrow. The average cost is around $1,500 per year but varies by location, coverage level, and home value.</p>
+
+    <h3>Private Mortgage Insurance (PMI)</h3>
+    <p>If your down payment is less than 20% of the home price, most lenders require PMI. This insurance protects the lender in case you default on the loan. PMI typically costs between 0.5% and 1.5% of the loan amount per year. Once you reach 20% equity in your home (through payments or appreciation), you can request to have PMI removed.</p>
+
+    <h3>Tips to Lower Your Mortgage Payment</h3>
+    <ul>
+      <li><strong>Make a larger down payment</strong> — A 20% down payment eliminates PMI and reduces your loan amount.</li>
+      <li><strong>Improve your credit score</strong> — Borrowers with higher credit scores qualify for lower interest rates.</li>
+      <li><strong>Choose a longer loan term</strong> — A 30-year mortgage has lower monthly payments than a 15-year loan, though you'll pay more interest overall.</li>
+      <li><strong>Shop around for lenders</strong> — Rates can vary by 0.5% or more between lenders, which translates to thousands of dollars over the life of the loan.</li>
+      <li><strong>Consider an adjustable-rate mortgage (ARM)</strong> — ARMs offer lower initial rates, though they can increase after the fixed period.</li>
+    </ul>
+
+    <p>For more strategies, read our guide on <a href="../blog/how-to-pay-off-mortgage-faster.html">how to pay off your mortgage faster</a>. If you're comparing loan offers, check out our <a href="../blog/best-personal-loans.html">best personal loans</a> comparison.</p>
+
+    <p>Want to calculate other types of financing? Try our <a href="loan.html">loan calculator</a> for personal loans or our <a href="auto-loan.html">auto loan calculator</a> for car financing.</p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="../index.html" class="logo">
+        <span class="logo-icon">$</span>
+        CalcWise
+      </a>
+      <p>Free, accurate financial calculators to help you make smarter money decisions.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Calculators</h4>
+      <ul>
+        <li><a href="mortgage.html">Mortgage Calculator</a></li>
+        <li><a href="loan.html">Loan Calculator</a></li>
+        <li><a href="auto-loan.html">Auto Loan Calculator</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../about.html">About Us</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../privacy.html">Privacy Policy</a></li>
+        <li><a href="../terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; <span id="current-year"></span> CalcWise. All rights reserved. Calculations are estimates for informational purposes only.
+  </div>
+</footer>
+
+<script src="../assets/js/mortgage.js"></script>
+</body>
+</html>

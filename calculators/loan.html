@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Calculator - Calculate Monthly Payment & Total Interest | CalcWise</title>
+  <meta name="description" content="Free loan calculator. Calculate monthly payments, total interest, and full amortization schedule for personal loans, student loans, and more.">
+  <meta name="keywords" content="loan calculator, personal loan calculator, monthly payment calculator, loan interest calculator, amortization">
+  <link rel="canonical" href="https://www.calcwise.cc/calculators/loan.html">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="../assets/js/common.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="logo">
+      <span class="logo-icon">$</span>
+      CalcWise
+    </a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="mortgage.html">Mortgage</a>
+      <a href="loan.html">Loans</a>
+      <a href="auto-loan.html">Auto Loan</a>
+      <a href="../blog/index.html">Blog</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+  </div>
+</header>
+
+<div class="container">
+  <h1 style="font-size:2rem; color:var(--primary); margin:0 0 8px;">Loan Calculator</h1>
+  <p style="color:var(--text-muted); margin:0 0 24px;">Calculate your monthly payment, total interest, and view a full amortization schedule for any fixed-rate loan.</p>
+
+  <div class="calc-wrapper">
+    <div class="calc-panel">
+      <h2>Loan Details</h2>
+      <div class="form-group">
+        <label for="loanAmount">Loan Amount</label>
+        <input type="text" id="loanAmount" value="25000" inputmode="decimal">
+      </div>
+      <div class="form-group">
+        <label for="interestRate">Interest Rate (%)</label>
+        <input type="text" id="interestRate" value="8.5" inputmode="decimal" step="0.01">
+      </div>
+      <div class="form-group">
+        <label for="loanTerm">Loan Term</label>
+        <select id="loanTerm">
+          <option value="12">1 year (12 months)</option>
+          <option value="24">2 years (24 months)</option>
+          <option value="36">3 years (36 months)</option>
+          <option value="48">4 years (48 months)</option>
+          <option value="60" selected>5 years (60 months)</option>
+          <option value="72">6 years (72 months)</option>
+          <option value="84">7 years (84 months)</option>
+          <option value="120">10 years (120 months)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="calc-panel">
+      <h2>Results</h2>
+      <div class="result-highlight">
+        <div class="label">Monthly Payment</div>
+        <div class="value" id="monthlyPayment">$0</div>
+      </div>
+      <div class="result-row">
+        <span class="label">Loan Amount</span>
+        <span class="value" id="resultPrincipal">$0</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Total Interest</span>
+        <span class="value" id="resultInterest">$0</span>
+      </div>
+      <div class="result-row" style="border-bottom:none; font-weight:700; padding-top:12px;">
+        <span class="label">Total Repayment</span>
+        <span class="value" id="resultTotal">$0</span>
+      </div>
+      <div class="chart-container">
+        <canvas id="loanChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-placeholder">
+    <span class="ad-label">ADVERTISEMENT</span>
+    <div>AdSense / Ezoic ad placement (728x90)</div>
+  </div>
+
+  <div class="calc-panel" style="margin-bottom:32px;">
+    <h2>Amortization Schedule</h2>
+    <div class="amort-scroll">
+      <table class="amort-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Payment</th>
+            <th>Principal</th>
+            <th>Interest</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody id="amortBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="article">
+    <h2>How Does a Personal Loan Work?</h2>
+    <p>A personal loan is an installment loan that provides a lump sum of money upfront, which you repay in fixed monthly payments over a set period. Unlike credit cards, personal loans typically have fixed interest rates, making your payments predictable and easier to budget for.</p>
+
+    <h3>Key Components of a Loan</h3>
+    <ul>
+      <li><strong>Principal</strong> — The amount you borrow. This is the base on which interest is calculated.</li>
+      <li><strong>Interest Rate</strong> — The percentage the lender charges for borrowing. Personal loan rates typically range from 6% to 36% APR, depending on your credit score.</li>
+      <li><strong>Loan Term</strong> — How long you have to repay. Common terms are 1 to 7 years. Longer terms mean lower monthly payments but more total interest.</li>
+      <li><strong>Monthly Payment</strong> — The fixed amount you pay each month, covering both principal and interest.</li>
+    </ul>
+
+    <h3>The Loan Payment Formula</h3>
+    <p>For a fixed-rate amortizing loan, the monthly payment is calculated using the same formula as a mortgage:</p>
+    <blockquote>M = P &times; [r(1+r)<sup>n</sup>] / [(1+r)<sup>n</sup> - 1]</blockquote>
+    <p>Where <strong>M</strong> = monthly payment, <strong>P</strong> = principal (loan amount), <strong>r</strong> = monthly interest rate (annual rate &divide; 12), and <strong>n</strong> = total number of monthly payments.</p>
+
+    <h3>Personal Loan vs. Credit Card</h3>
+    <p>Personal loans often have lower interest rates than credit cards, especially for borrowers with good credit. They also have fixed repayment schedules, which means you'll know exactly when the debt will be paid off. Credit cards offer more flexibility (you can carry a balance and pay varying amounts), but their higher rates and revolving nature can lead to long-term debt cycles.</p>
+
+    <h3>Tips for Getting the Best Loan Rate</h3>
+    <ul>
+      <li><strong>Check your credit score</strong> — A score above 720 typically qualifies for the best rates. Get a free copy of your credit report and dispute any errors.</li>
+      <li><strong>Compare multiple lenders</strong> — Rates vary significantly. Check banks, credit unions, and online lenders. Many offer pre-qualification with no impact on your credit score.</li>
+      <li><strong>Choose a shorter term</strong> — Shorter loan terms usually come with lower interest rates, though monthly payments will be higher.</li>
+      <li><strong>Consider a secured loan</strong> — If you have collateral (like a car or savings account), a secured loan may offer a lower rate.</li>
+      <li><strong>Watch for fees</strong> — Some lenders charge origination fees (1%–6% of the loan amount), prepayment penalties, or late fees. Factor these into the total cost.</li>
+    </ul>
+
+    <p>Looking for the best rates? See our comparison of the <a href="../blog/best-personal-loans.html">best personal loans in 2026</a>. For home financing, use our <a href="mortgage.html">mortgage calculator</a>, or try our <a href="auto-loan.html">auto loan calculator</a> for car purchases.</p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="../index.html" class="logo">
+        <span class="logo-icon">$</span>
+        CalcWise
+      </a>
+      <p>Free, accurate financial calculators to help you make smarter money decisions.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Calculators</h4>
+      <ul>
+        <li><a href="mortgage.html">Mortgage Calculator</a></li>
+        <li><a href="loan.html">Loan Calculator</a></li>
+        <li><a href="auto-loan.html">Auto Loan Calculator</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../about.html">About Us</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../privacy.html">Privacy Policy</a></li>
+        <li><a href="../terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; <span id="current-year"></span> CalcWise. All rights reserved. Calculations are estimates for informational purposes only.
+  </div>
+</footer>
+
+<script src="../assets/js/loan.js"></script>
+</body>
+</html>

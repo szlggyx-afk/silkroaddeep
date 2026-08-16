@@ -1,1 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Loan Calculator - Estimate Your Car Payment | CalcWise</title>
+  <meta name="description" content="Free auto loan calculator. Estimate your monthly car payment including trade-in, down payment, taxes, and fees. See total cost and interest.">
+  <meta name="keywords" content="auto loan calculator, car payment calculator, car loan calculator, auto financing calculator">
+  <link rel="canonical" href="https://www.calcwise.cc/calculators/auto-loan.html">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="../assets/js/common.js"></script>
+</head>
+<body>
 
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="logo">
+      <span class="logo-icon">$</span>
+      CalcWise
+    </a>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="mortgage.html">Mortgage</a>
+      <a href="loan.html">Loans</a>
+      <a href="auto-loan.html">Auto Loan</a>
+      <a href="../blog/index.html">Blog</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+  </div>
+</header>
+
+<div class="container">
+  <h1 style="font-size:2rem; color:var(--primary); margin:0 0 8px;">Auto Loan Calculator</h1>
+  <p style="color:var(--text-muted); margin:0 0 24px;">Estimate your monthly car payment including trade-in, down payment, sales tax, and fees.</p>
+
+  <div class="calc-wrapper">
+    <div class="calc-panel">
+      <h2>Vehicle & Loan Details</h2>
+      <div class="form-group">
+        <label for="carPrice">Car Price</label>
+        <input type="text" id="carPrice" value="35000" inputmode="decimal">
+      </div>
+      <div class="form-group">
+        <label for="downPayment">Down Payment</label>
+        <input type="text" id="downPayment" value="5000" inputmode="decimal">
+      </div>
+      <div class="form-group">
+        <label for="tradeIn">Trade-in Value</label>
+        <input type="text" id="tradeIn" value="8000" inputmode="decimal">
+        <div class="input-hint">Value of your current vehicle (if any)</div>
+      </div>
+      <div class="form-group">
+        <label for="salesTax">Sales Tax Rate (%)</label>
+        <input type="text" id="salesTax" value="7" inputmode="decimal" step="0.1">
+        <div class="input-hint">Average US rate is 5%–10%</div>
+      </div>
+      <div class="form-group">
+        <label for="interestRate">Interest Rate (%)</label>
+        <input type="text" id="interestRate" value="7.5" inputmode="decimal" step="0.01">
+      </div>
+      <div class="form-group">
+        <label for="loanTerm">Loan Term</label>
+        <select id="loanTerm">
+          <option value="24">2 years (24 months)</option>
+          <option value="36">3 years (36 months)</option>
+          <option value="48">4 years (48 months)</option>
+          <option value="60" selected>5 years (60 months)</option>
+          <option value="72">6 years (72 months)</option>
+          <option value="84">7 years (84 months)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="calc-panel">
+      <h2>Your Estimated Payment</h2>
+      <div class="result-highlight">
+        <div class="label">Monthly Payment</div>
+        <div class="value" id="monthlyPayment">$0</div>
+      </div>
+      <div class="result-row">
+        <span class="label">Loan Amount</span>
+        <span class="value" id="loanAmount">$0</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Sales Tax</span>
+        <span class="value" id="taxAmount">$0</span>
+      </div>
+      <div class="result-row">
+        <span class="label">Total Interest</span>
+        <span class="value" id="totalInterest">$0</span>
+      </div>
+      <div class="result-row" style="border-bottom:none; font-weight:700; padding-top:12px;">
+        <span class="label">Total Vehicle Cost</span>
+        <span class="value" id="totalCost">$0</span>
+      </div>
+      <div class="chart-container">
+        <canvas id="autoChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="ad-placeholder">
+    <span class="ad-label">ADVERTISEMENT</span>
+    <div>AdSense / Ezoic ad placement (728x90)</div>
+  </div>
+
+  <div class="calc-panel" style="margin-bottom:32px;">
+    <h2>Amortization Schedule</h2>
+    <div class="amort-scroll">
+      <table class="amort-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Payment</th>
+            <th>Principal</th>
+            <th>Interest</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody id="amortBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="article">
+    <h2>How Auto Loans Work</h2>
+    <p>An auto loan is a secured installment loan used to finance a vehicle purchase. The car itself serves as collateral, meaning the lender can repossess it if you fail to make payments. Because the loan is secured, auto loan rates are typically lower than unsecured personal loans.</p>
+
+    <h3>Understanding Your Car Payment</h3>
+    <p>Your monthly auto loan payment depends on several factors beyond just the car's sticker price:</p>
+    <ul>
+      <li><strong>Vehicle price</strong> — The negotiated purchase price of the car.</li>
+      <li><strong>Down payment</strong> — The cash you pay upfront. A larger down payment reduces the amount you need to borrow.</li>
+      <li><strong>Trade-in value</strong> — If you're trading in a vehicle, its value is deducted from the purchase price.</li>
+      <li><strong>Sales tax</strong> — Most states charge sales tax on vehicle purchases, which is often rolled into the loan.</li>
+      <li><strong>Interest rate (APR)</strong> — The cost of borrowing, expressed as an annual percentage rate.</li>
+      <li><strong>Loan term</strong> — How long you have to repay. Common terms are 36 to 72 months.</li>
+    </ul>
+
+    <h3>The Auto Loan Formula</h3>
+    <p>The monthly payment is calculated using the standard amortization formula, applied to the loan amount (car price minus down payment and trade-in, plus sales tax):</p>
+    <blockquote>M = P &times; [r(1+r)<sup>n</sup>] / [(1+r)<sup>n</sup> - 1]</blockquote>
+
+    <h3>New vs. Used Car Financing</h3>
+    <p>New car loans typically offer lower interest rates than used car loans, sometimes with promotional 0% APR financing from manufacturers. However, new cars depreciate rapidly—losing 20% or more of their value in the first year. Used cars have higher rates but slower depreciation, which can mean you build equity faster. Consider the total cost of ownership, not just the monthly payment.</p>
+
+    <h3>Tips for the Best Auto Loan Deal</h3>
+    <ul>
+      <li><strong>Get pre-approved first</strong> — Shop for financing at banks, credit unions, and online lenders before visiting the dealership. This gives you a rate to compare against the dealer's offer.</li>
+      <li><strong>Negotiate the total price, not the monthly payment</strong> — Dealers can stretch loan terms to make payments seem affordable, but you'll pay more in interest.</li>
+      <li><strong>Put at least 20% down</strong> — This helps you avoid being "upside down" (owing more than the car is worth) and reduces interest costs.</li>
+      <li><strong>Choose the shortest term you can afford</strong> — A 60-month loan has lower payments than a 36-month loan, but you'll pay significantly more interest.</li>
+      <li><strong>Check your credit score</strong> — Borrowers with excellent credit (750+) get the best rates. Even a 1% difference in rate can save you over $1,000 on a $25,000 loan.</li>
+    </ul>
+
+    <p>For other types of financing, try our <a href="loan.html">personal loan calculator</a> or <a href="mortgage.html">mortgage calculator</a>.</p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="../index.html" class="logo">
+        <span class="logo-icon">$</span>
+        CalcWise
+      </a>
+      <p>Free, accurate financial calculators to help you make smarter money decisions.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Calculators</h4>
+      <ul>
+        <li><a href="mortgage.html">Mortgage Calculator</a></li>
+        <li><a href="loan.html">Loan Calculator</a></li>
+        <li><a href="auto-loan.html">Auto Loan Calculator</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../about.html">About Us</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../privacy.html">Privacy Policy</a></li>
+        <li><a href="../terms.html">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; <span id="current-year"></span> CalcWise. All rights reserved. Calculations are estimates for informational purposes only.
+  </div>
+</footer>
+
+<script src="../assets/js/auto-loan.js"></script>
+</body>
+</html>
