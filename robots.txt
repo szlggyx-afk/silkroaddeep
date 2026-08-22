@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.calcwise.cc/sitemap.xml
+Sitemap: https://www.calcwise.cc/sitemap/sitemap.xml
